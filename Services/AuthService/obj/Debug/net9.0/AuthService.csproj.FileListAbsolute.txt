@@ -164,3 +164,5 @@ D:\.net projects\InventoryManagementSystem\Services\AuthService\obj\Debug\net9.0
 D:\.net projects\InventoryManagementSystem\Services\AuthService\obj\Debug\net9.0\AuthService.pdb
 D:\.net projects\InventoryManagementSystem\Services\AuthService\obj\Debug\net9.0\AuthService.genruntimeconfig.cache
 D:\.net projects\InventoryManagementSystem\Services\AuthService\obj\Debug\net9.0\ref\AuthService.dll
+D:\.net projects\InventoryManagementSystem\Services\AuthService\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\.net projects\InventoryManagementSystem\Services\AuthService\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
