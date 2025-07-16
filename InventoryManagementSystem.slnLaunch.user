@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Services\\AuthService\\AuthService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Client\\Inventory.WPF\\Inventory.WPF.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

@@ -5,8 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Inventory.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Login" Height="250" Width="400">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <!-- Email Field -->
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Email" Margin="0,0,0,5" />
+            <TextBox x:Name="EmailTextBox" />
+        </StackPanel>
+
+        <!-- Password Field -->
+        <StackPanel Grid.Row="1" Margin="0,10,0,0">
+            <TextBlock Text="Password" Margin="0,0,0,5" />
+            <PasswordBox x:Name="PasswordBox" />
+        </StackPanel>
+
+        <!-- Login Button -->
+        <Button Grid.Row="2" Content="Login" Click="Login_Click" Margin="0,10,0,0" />
+
+        <!-- Status -->
+        <TextBlock x:Name="StatusTextBlock" Grid.Row="3" Foreground="Red" Margin="0,10,0,0" />
     </Grid>
 </Window>

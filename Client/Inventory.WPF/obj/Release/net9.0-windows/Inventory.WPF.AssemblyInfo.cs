@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Inventory.WPF")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3589100232d12339466bda3517fdbb7e9ae6e1c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2ac053f1b2333adfea83ec8cd4a5e9005b69e879")]
 [assembly: System.Reflection.AssemblyProductAttribute("Inventory.WPF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Inventory.WPF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

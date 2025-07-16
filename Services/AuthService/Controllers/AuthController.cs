@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using AuthService.DTOs;
 using AuthService.Models;
 using AuthService.Helpers;
 using AuthService.Data;
+using AuthService.Interfaces;
+using AuthService.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -19,11 +22,12 @@ public class AuthController : ControllerBase
 {
     private readonly AuthDbContext _context;
     private readonly IConfiguration _config;
+    private readonly ITokenService _tokenService;
 
-    public AuthController(AuthDbContext context, IConfiguration config)
+    public AuthController(AuthDbContext context, ITokenService tokenService)
     {
         _context = context;
-        _config = config;
+        _tokenService = tokenService;
     }
 
 
@@ -63,7 +67,8 @@ public class AuthController : ControllerBase
         if (!PasswordHasher.Verify(request.Password, user.PasswordHash))
             return Unauthorized("Invalid email or password.");
 
-        var token = GenerateJwtToken(user);
+        var token = _tokenService.GetToken(user.Username, user.Email);
+
 
         var response = new AuthResponse
         {
@@ -77,27 +82,44 @@ public class AuthController : ControllerBase
     }
 
 
-    private string GenerateJwtToken(User user)
+    [HttpGet("profile")]
+    [Authorize]
+    public IActionResult GetProfile()
     {
-        var jwtSettings = _config.GetSection("JwtSettings");
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var username = User.Claims.FirstOrDefault(c => c.Type == "username")?.Value;
+        var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type == "sub")?.Value;
 
-        var claims = new[]
+        return Ok(new
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim("username", user.Username),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        var token = new JwtSecurityToken(
-            issuer: jwtSettings["Issuer"],
-            audience: jwtSettings["Audience"],
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiresInMinutes"])),
-            signingCredentials: creds
-        );
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
+            Username = username,
+            Email = email,
+            Message = "You have accessed a protected endpoint!"
+        });
     }
+
+
+
+    //private string GenerateJwtToken(User user)
+    //{
+    //    var jwtSettings = _config.GetSection("JwtSettings");
+    //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!));
+    //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+    //    var claims = new[]
+    //    {
+    //        new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+    //        new Claim("username", user.Username),
+    //        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+    //    };
+
+    //    var token = new JwtSecurityToken(
+    //        issuer: jwtSettings["Issuer"],
+    //        audience: jwtSettings["Audience"],
+    //        claims: claims,
+    //        expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiresInMinutes"])),
+    //        signingCredentials: creds
+    //    );
+
+    //    return new JwtSecurityTokenHandler().WriteToken(token);
+    //}
 }
